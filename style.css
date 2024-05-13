@@ -70,18 +70,19 @@ body{
 .control-container{
     border-radius: 1rem;
     position: relative;
-    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.623);
     padding: 1rem 1rem;
     padding-right: 1.5rem;
     width: 90%;
     height: 10%;
     padding-bottom: 2rem;
     opacity: 0;
-    transition: all 0.5s ease-out;
+    transition: all 0.5s ease-out 2s;
 }
 
 .show-controls:hover .control-container{
     opacity: 1;
+    transition: all 0.2s ease-out;
    
 }
 
@@ -92,11 +93,16 @@ body{
     height: 0.3rem;
     border-radius: 1rem;
     margin-bottom: 0.5rem;
+    cursor: pointer;
     
+}
+.progress-range:hover .progress-bar{
+    height: 0.32rem;
+    background-color: rgb(73, 105, 136);
 }
 
 .progress-bar{
-    width: 60%;
+    width: 90%;
     height: inherit;
     background-color: rgba(240, 248, 255, 0.621);
     border-radius: 1rem;
@@ -158,11 +164,38 @@ body{
 .time{
     display: flex;
     color: white;
+    font-size: smaller;
 }
 
-.volume-icon, .fa-play, .fa-expand{
+.volume-icon, .fa-play, .fa-expand, .fa-pause{
     color: aliceblue;
+    cursor: pointer;
 }
+
+
+/* speed */
+.speed{
+
+}
+
+select{
+    background-color: transparent;
+border: none;
+color: white;
+}
+
+option{
+    color: #000000;
+}
+
+select:focus{
+    outline: none;
+}
+
+select, option{
+
+}
+
 
 @media screen and (max-width:600px) {
     .player{
