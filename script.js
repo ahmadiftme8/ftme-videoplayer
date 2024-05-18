@@ -166,8 +166,50 @@ let lastVolume = 1;
     }
 
 
-    
+// change play back speed----------------------//
 
+function changeSpeed(){
+    videoElement.playbackRate = playerSpeedSelect.value;
+}
+
+// full screen---------------------------------//
+
+
+/* View in fullscreen */
+function openFullscreen(elem) {
+    if (elem.requestFullscreen) {
+      elem.requestFullscreen();
+    } else if (elem.webkitRequestFullscreen) { /* Safari */
+      elem.webkitRequestFullscreen();
+    } else if (elem.msRequestFullscreen) { /* IE11 */
+      elem.msRequestFullscreen();
+    }
+  }
+  
+  /* Close fullscreen */
+  function closeFullscreen() {
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    } else if (document.webkitExitFullscreen) { /* Safari */
+      document.webkitExitFullscreen();
+    } else if (document.msExitFullscreen) { /* IE11 */
+      document.msExitFullscreen();
+    }
+  }
+
+
+  let fullscreen = false;
+
+  //toggle full screen
+
+  function toggleFullscreen(){
+    if(!fullscreen){
+        openFullscreen(playerDiv)
+    }else{
+        closeFullscreen();
+    }
+    fullscreen = !fullscreen;
+  }
 
 
 
@@ -179,4 +221,5 @@ videoElement.addEventListener('canplay', updateProgress);
 progressBarRangeDiv.addEventListener('click', setProgress);
 volumeRangeDiv.addEventListener('click', changeVolume);
 volumeIcon.addEventListener('click', toggleVolume);
-speedDiv.addEventListener('change', changeSpeed);
+playerSpeedSelect.addEventListener('change', changeSpeed);
+fullscreenDiv.addEventListener('click', toggleFullscreen)
