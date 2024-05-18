@@ -68,12 +68,107 @@ function togglePlay(){
 }
 
 
+
+
 // progress bar ----------------------------//
+
+    //calculate display time format
+    function displayTime(time){
+        const minutes = Math.floor(time / 60);
+        let seconds = Math.floor(time % 60);
+        seconds = seconds >9 ? seconds : `0${seconds}`
+       return `${minutes}:${seconds}`;
+    }
 
     //update progress bar as vodeo plays
     function updateProgress(){
-        progressBarDiv.style.width = `${(videoElement.currentTime / videoElement.duration) * 100}%`
+        progressBarDiv.style.width = `${(videoElement.currentTime / videoElement.duration) * 100}%`;
+
+        currentTime.textContent = `${displayTime(videoElement.currentTime)}`;
+
+        timeDurationSpan.textContent = `${displayTime(videoElement.duration)}`;
     }
+
+    //click to seek the video
+    function setProgress(e){
+        /* console.log(e.
+            offsetX); */
+            /* console.log(e); */
+        
+        let clikedErea = (e.offsetX / e.srcElement.offsetWidth);
+        progressBarDiv.style.width = `${clikedErea}%`;
+        videoElement.currentTime = clikedErea * videoElement.duration;
+
+    }
+
+
+
+// Volume Controls--------------------------//
+
+let lastVolume = 1;
+    //volume bar
+
+    function changeVolume(e){
+        let volume = e.offsetX / volumeRangeDiv.offsetWidth;
+        //rounding volume up or down
+        if(volume < 0.1){
+            volume = 0;
+        }
+        if(volume> 0.9){
+            volume = 1;
+        }
+        
+
+        volumeBarDiv.style.width = `${volume *100}%`;
+        videoElement.volume = volume;
+
+        // change icon depending on volume
+        volumeIcon.className = '';
+        if(volume > 0.7){
+            volumeIcon.classList.add('fas', 'fa-volume-up')
+        }else if(volume < 0.7 && volume> 0){
+            volumeIcon.classList.add('fas','fa-volume-down' )
+        }else if(volume === 0){
+            volumeIcon.classList.add('fas', 'fa-volume-off')
+        }
+
+        lastVolume = volume;
+    }
+
+    //mute and Unmute2
+
+    function toggleVolume(){
+        if(videoElement.volume){
+            videoElement.volume = 0;
+            volumeIcon.classList.add('fas','fa-volume-xmark' );
+            volumeIcon.classList.remove( 'fa-volume-up', 'fa-volume-down', 'fa-volume-off');
+            volumeBarDiv.style.width = '0'
+        }else{
+            videoElement.volume = lastVolume;
+
+            volumeIcon.classList.remove('fas','fa-volume-xmark' );
+
+            if(videoElement.volume > 0.7){
+                volumeIcon.classList.add( 'fas','fa-volume-up')
+                
+            }else if(videoElement.volume < 0.7 && videoElement.volume> 0){
+                volumeIcon.classList.add('fas','fa-volume-down' );
+                
+            }else if(videoElement.volume === 0){
+                volumeIcon.classList.add('fas', 'fa-volume-off');
+                
+            }
+
+            volumeBarDiv.style.width = `${lastVolume * 100}%`;
+            
+
+        }
+    }
+
+
+    
+
+
 
 
 //add event listener
@@ -81,3 +176,7 @@ playBtn.addEventListener('click', togglePlay);
 videoElement.addEventListener('click', togglePlay);
 videoElement.addEventListener('timeupdate', updateProgress);
 videoElement.addEventListener('canplay', updateProgress);
+progressBarRangeDiv.addEventListener('click', setProgress);
+volumeRangeDiv.addEventListener('click', changeVolume);
+volumeIcon.addEventListener('click', toggleVolume);
+speedDiv.addEventListener('change', changeSpeed);
